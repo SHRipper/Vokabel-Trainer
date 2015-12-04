@@ -12,7 +12,7 @@ namespace Vokabel_Trainer
         VocabFile file;
         Words newWord;
         Words currentWords;
-        Words[] wordCollection { get; set; }
+        Words[] wordCollection;
 
         public MainForm()
         {
