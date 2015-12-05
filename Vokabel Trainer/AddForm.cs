@@ -7,8 +7,6 @@ namespace Vokabel_Trainer
 {
     public partial class AddForm : Form 
     {
-        public string filepath { get; set; }
-
         public AddForm()
         {
             InitializeComponent();
@@ -33,7 +31,7 @@ namespace Vokabel_Trainer
         }
         private void appendToFile(string newEnglish, string newGerman)
         {
-            StreamWriter fileWriter = new StreamWriter(filepath, true);
+            StreamWriter fileWriter = new StreamWriter(VocabFile.path, true);
             fileWriter.WriteLine("{0}={1};{2};{3}", newEnglish, newGerman, 0, 0);
             fileWriter.Close();
         }
@@ -42,7 +40,6 @@ namespace Vokabel_Trainer
         {
             this.Close();
             OverviewForm overview = new OverviewForm();
-            overview.filepath = filepath;
             overview.Show();
         }
 
@@ -52,6 +49,11 @@ namespace Vokabel_Trainer
                 "mit einem \",\" getrennt eingegeben werden.\nz.B. hello = Hallo, Hi, Servus";
                 
             MessageBox.Show(infoMessage, "Tipps", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        private void AddForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            OverviewForm overview = new OverviewForm();
+            overview.Show();
         }
     }
 }

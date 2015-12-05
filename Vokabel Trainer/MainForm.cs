@@ -7,12 +7,8 @@ namespace Vokabel_Trainer
 {
     public partial class MainForm : Form
     {
-        string mode;
-        int linesInFile { get; set; }
-        VocabFile file;
-        Words newWord;
-        Words currentWords;
-        Words[] wordCollection;
+        string mode;      
+        Words Words;
 
         public MainForm()
         {
@@ -21,42 +17,17 @@ namespace Vokabel_Trainer
 
         private void frmVocalCheck_Load(object sender, EventArgs e)
         {
-            file = new VocabFile();
+            Words = new Words();
+
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Vokabeldatenbank.txt";
-            file.path = path;
-            
+            VocabFile.path = path;
+
             if (!File.Exists(path))
             {
                 File.Create(path);
             }
 
-            StreamReader sr = new StreamReader(file.path);
-            while (sr.ReadLine() != null)
-            {
-                this.linesInFile++;
-            }
-            sr.Close();
-
-
-           
-            wordCollection = new Words[this.linesInFile];
-            StreamReader reader = new StreamReader(file.path);
-            for (int i = 0; i < this.linesInFile; i++)
-            {
-                string line = reader.ReadLine();
-                string germanWords = "";
-                newWord = new Words();
-
-                newWord.englishWord = line.Split('=')[0];
-                germanWords = line.Split('=')[1].Split(';')[0];
-                newWord.germanWords = germanWords.Split(',');
-                newWord.usedCorrect = Convert.ToInt32(line.Split('=')[1].Split(';')[1]);
-                newWord.usedIncorrect = Convert.ToInt32(line.Split('=')[1].Split(';')[2]);
-                newWord.line = i;
-
-                wordCollection[i] = newWord;
-            }
-            reader.Close();
+            VocabFile.getTotalLines();
 
             setMode("english");
             englischDeutschToolStripMenuItem.Checked = true;
@@ -125,11 +96,11 @@ namespace Vokabel_Trainer
             {
                 case "english":
                     // print solution 
-                    lblResult.Text = "Die Übersetzung von \"" + currentWords.englishWord + "\" ist \"" + currentWords.getGermanWordsAsString() + "\"";
+                    lblResult.Text = "Die Übersetzung von \"" + Words.englishWord + "\" ist \"" + Words.getGermanWordsAsString() + "\"";
                     break;
                 case "german":
                     string germanWord = tbCheckEnglish.Text;
-                    lblResult.Text = "Die Übersetzung von \"" + germanWord + "\" ist \"" + currentWords.englishWord + "\"";
+                    lblResult.Text = "Die Übersetzung von \"" + germanWord + "\" ist \"" + Words.englishWord + "\"";
                     break;
             }
             
@@ -140,15 +111,25 @@ namespace Vokabel_Trainer
 
             // generate random number and read a random line
             Random rnd = new Random();
-            int rndWordLine = rnd.Next(0, linesInFile +1);
-            this.currentWords = wordCollection[rndWordLine];
+            int rndWordLine = rnd.Next(0, VocabFile.linesInFile +1);
+            string rndLine = "";
+
+            StreamReader sr = new StreamReader(VocabFile.path);
+            for (int i = 0; i <= rndWordLine; i++)
+            {
+                rndLine = sr.ReadLine();
+            }
+            sr.Close();
+            Words.englishWord = rndLine.Split('=')[0];
+            string germanWords = rndLine.Split('=')[0].Split(';')[0];
+            Words.germanWords = germanWords.Split(',');
+            Words.usedCorrect = Convert.ToInt32(rndLine.Split('=')[0].Split(';')[1]);
+            Words.usedIncorrect = Convert.ToInt32(rndLine.Split('=')[0].Split(';')[2]);
+            Words.line = rndWordLine;
 
             // clear the textboxes
             tbCheckEnglish.Clear();
             tbCheckGerman.Clear();
-
-            // fill the textboxes
-            fillTextboxes();
         }
 
         private bool isCorrect(string userword)
@@ -156,15 +137,15 @@ namespace Vokabel_Trainer
             switch (getMode())
             {
                 case "german":
-                    if (userword.ToLower().Equals(currentWords.englishWord.ToLower()))
+                    if (userword.ToLower().Equals(Words.englishWord.ToLower()))
                     {
                         return true;
                     }
                     return false;
                 case "english":
-                    for (int i = 0; i < currentWords.germanWords.Length; i++)
+                    for (int i = 0; i < Words.germanWords.Length; i++)
                     {
-                        if (userword.ToLower().Equals(currentWords.germanWords[i].ToLower()))
+                        if (userword.ToLower().Equals(Words.germanWords[i].ToLower()))
                         {
                             return true;
                         }
@@ -177,13 +158,17 @@ namespace Vokabel_Trainer
         }
         private void fillTextboxes()
         {
+            // clear the textboxes
+            tbCheckEnglish.Clear();
+            tbCheckGerman.Clear();
+
             switch (getMode())
             {
                 case "german":
-                    tbCheckEnglish.Text = currentWords.getGermanWordsAsString();
+                    tbCheckEnglish.Text = Words.germanWords[(new Random()).Next(0,Words.germanWords.Length)];
                     break;
                 case "english":
-                    tbCheckEnglish.Text = currentWords.englishWord;
+                    tbCheckEnglish.Text =Words.englishWord;
                     break;
             }
             
@@ -240,8 +225,6 @@ namespace Vokabel_Trainer
         private void vokabelnBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OverviewForm edit = new OverviewForm();
-            edit.filepath = file.path;
-            
             edit.Show();
             
         }

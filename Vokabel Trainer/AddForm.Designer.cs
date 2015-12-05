@@ -1,4 +1,5 @@
-﻿namespace Vokabel_Trainer
+﻿using System.Windows.Forms;
+namespace Vokabel_Trainer
 {
     partial class AddForm
     {
@@ -38,6 +39,7 @@
             this.btnInfo = new System.Windows.Forms.Button();
             this.grpAdd.SuspendLayout();
             this.SuspendLayout();
+            this.FormClosing += new FormClosingEventHandler(AddForm_Closing);
             // 
             // grpAdd
             // 

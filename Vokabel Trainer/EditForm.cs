@@ -12,10 +12,9 @@ namespace Vokabel_Trainer
 {
     public partial class EditForm : Form
     {
-        public string filepath {get;set;}
-        public string germanWord { get; set; }
-        public string englishWord { get; set; }
-        public int selectedLine { get; set; }
+        public string germanWord;
+        public string englishWord;
+        public int selectedLine;
 
         public EditForm()
         {
@@ -25,26 +24,20 @@ namespace Vokabel_Trainer
         private void EditForm_Load(object sender, EventArgs e)
         {
             tbEnglish.Text = englishWord;
-            germanWord = germanWord.Replace(",", ", ");
-            tbGerman.Text = germanWord;
+            tbGerman.Text = germanWord.Replace(",", ", ");
         }
 
         private void btnCommit_Click(object sender, EventArgs e)
         {
-            string[] lines = File.ReadAllLines(filepath);
-            StreamWriter sw  = new StreamWriter(filepath);
-            
-            string newGermanWord = tbGerman.Text.Trim();
+            string[] lines = File.ReadAllLines(VocabFile.path);
+            StreamWriter sw  = new StreamWriter(VocabFile.path);
+
+            string newGermanWord = tbGerman.Text.Trim().Replace(" ","");
             string newEnglishWord = tbEnglish.Text.Trim();
-            string newLine = newEnglishWord + "=" + newGermanWord + ";0;0";
+            lines[selectedLine] = newEnglishWord + "=" + newGermanWord + ";0;0";
 
             for (int i = 0; i < lines.Length; i++)
             {
-                if (i == selectedLine)
-                {
-                    sw.WriteLine(newLine);
-                    continue;
-                }
                 sw.WriteLine(lines[i]);
             }
             sw.Close();
@@ -64,7 +57,6 @@ namespace Vokabel_Trainer
         private void showOverviewForm()
         {
             OverviewForm overview = new OverviewForm();
-            overview.filepath = filepath;
             overview.Show();
         }
     }

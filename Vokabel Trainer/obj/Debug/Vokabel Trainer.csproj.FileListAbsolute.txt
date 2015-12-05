@@ -46,4 +46,3 @@ C:\Users\Lukas\Documents\Visual Studio 2015\Projects\Vokabel Trainer\Vokabel Tra
 C:\Users\Lukas\Documents\Visual Studio 2013\Projects\Vokabel Trainer\Vokabel Trainer\obj\Debug\Vokabel_Trainer.AddForm.resources
 C:\Users\Lukas\Documents\Visual Studio 2013\Projects\Vokabel Trainer\Vokabel Trainer\obj\Debug\Vokabel_Trainer.OverviewForm.resources
 C:\Users\Lukas\Documents\Visual Studio 2013\Projects\Vokabel Trainer\Vokabel Trainer\obj\Debug\Vokabel_Trainer.MainForm.resources
-C:\Users\Lukas\Documents\Visual Studio 2013\Projects\Vokabel Trainer\Vokabel Trainer\obj\Debug\Vokabel Trainer.csprojResolveAssemblyReference.cache
