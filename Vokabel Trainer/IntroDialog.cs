@@ -19,28 +19,37 @@ namespace Vokabel_Trainer
         public IntroDialog()
         {
             InitializeComponent();
-            
+            this.defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Vokabeldatenbank.txt";
+            lblMessage.Text = "Hallo!\nEs wurde für Sie ein Standardpfad für die Speicherung ihrer Vokabeln festgelegt.\n" +
+                                "Wenn Sie diesen ändern möchten, klicken sie auf das Ordnersymbol neben dem Pfad.\n\n" +
+                                "Sie können den Pfad später jederzeit ändern.";
+        }
+
+        public IntroDialog(string currentPath)
+        {
+            InitializeComponent();
+            this.defaultPath = currentPath;
+            lblMessage.Text = "Ihr derzeitiger Speicherort ist unten angegeben.\n\nWenn sie diesen ändern möchten, " +
+                                 "klicken sie auf das Ordnersymbol.";
         }
 
         private void IntroDialog_Load(object sender, EventArgs e)
         {
             btnChoosePath.BackgroundImage = Vokabel_Trainer.Properties.Resources.Ordner;
-            defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             tbPath.Enabled = false;
-            tbPath.Text = defaultPath + "\\Vokabeldatenbank.txt";
             selectedPath = defaultPath;
+            tbPath.Text = defaultPath;
         }
-
 
         private void IntroDialog_closed(object sender, FormClosedEventArgs e)
         {
-            VocabFile.path = selectedPath + "\\Vokabeldatenbank.txt"; 
+            VocabFile.path = selectedPath; 
             Vokabel_Trainer.Properties.Settings.Default.filePath = VocabFile.path;
             Vokabel_Trainer.Properties.Settings.Default.Save();
 
             if (!File.Exists(VocabFile.path))
             {
-                FileStream fs = File.Create(selectedPath + "\\Vokabeldatenbank.txt");
+                FileStream fs = File.Create(selectedPath);
                 fs.Dispose();
             }
             VocabFile.getTotalLines();
@@ -60,8 +69,8 @@ namespace Vokabel_Trainer
             {
                 if (dialog.SelectedPath != null)
                 {
-                    selectedPath = dialog.SelectedPath;
-                    tbPath.Text = selectedPath + "\\Vokabeldatenbank.txt";
+                    selectedPath = dialog.SelectedPath + "\\Vokabeldatenbank.txt";
+                    tbPath.Text = selectedPath;
                 }
             }
         }

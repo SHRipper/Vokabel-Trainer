@@ -26,7 +26,8 @@ namespace Vokabel_Trainer
             int programStarted = Vokabel_Trainer.Properties.Settings.Default.timesStarted;
             if (programStarted == 1)
             {
-                ShowIntroDialog();
+                IntroDialog intro = new IntroDialog();
+                intro.ShowDialog();
             }
         }
 
@@ -37,12 +38,6 @@ namespace Vokabel_Trainer
             timer1.Interval = 1500;
             btnShowVocab.Enabled = false;
             btnCheckVocab.Enabled = false;
-        }
-
-        private void ShowIntroDialog()
-        {
-            IntroDialog intro = new IntroDialog();
-            intro.ShowDialog();
         }
       
         private void btnStart_Click(object sender, EventArgs e)
@@ -317,7 +312,7 @@ namespace Vokabel_Trainer
             ChangeToBtnStart();
             resetTextboxes();
 
-            IntroDialog pathDialog = new IntroDialog();
+            IntroDialog pathDialog = new IntroDialog(VocabFile.path);
             pathDialog.ShowDialog();
         }
     }

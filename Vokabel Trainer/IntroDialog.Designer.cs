@@ -29,23 +29,22 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IntroDialog));
-            this.lblWordEnglish = new System.Windows.Forms.Label();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.tbPath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnChoosePath = new System.Windows.Forms.Button();
             this.btnPathOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.IntroDialog_closed);
             // 
-            // lblWordEnglish
+            // lblMessage
             // 
-            this.lblWordEnglish.AutoSize = true;
-            this.lblWordEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWordEnglish.Location = new System.Drawing.Point(12, 9);
-            this.lblWordEnglish.Name = "lblWordEnglish";
-            this.lblWordEnglish.Size = new System.Drawing.Size(613, 100);
-            this.lblWordEnglish.TabIndex = 5;
-            this.lblWordEnglish.Text = resources.GetString("lblWordEnglish.Text");
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMessage.Location = new System.Drawing.Point(12, 18);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(613, 100);
+            this.lblMessage.TabIndex = 5;
+            this.lblMessage.Text = resources.GetString("lblMessage.Text");
             // 
             // tbPath
             // 
@@ -94,9 +93,10 @@
             this.Controls.Add(this.btnChoosePath);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbPath);
-            this.Controls.Add(this.lblWordEnglish);
+            this.Controls.Add(this.lblMessage);
             this.Name = "IntroDialog";
             this.Text = "Willkommen!";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.IntroDialog_closed);
             this.Load += new System.EventHandler(this.IntroDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -105,7 +105,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblWordEnglish;
+        private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.TextBox tbPath;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnChoosePath;

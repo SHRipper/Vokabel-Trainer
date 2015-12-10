@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Vokabel Trainer.exe" size="38840">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Vokabel Trainer.exe" size="39864">
       <assemblyIdentity name="Vokabel Trainer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3TXUzGM9HcwjCJGbMavFj6rQs21lwlh+RQfnpuJU1Mk=</dsig:DigestValue>
+        <dsig:DigestValue>Qmal+kx6jX+sPMWhdEHcLk1pxAIlRBZnyDoZAc1RgS4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
