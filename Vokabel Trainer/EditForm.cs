@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+
 namespace Vokabel_Trainer
 {
     public partial class EditForm : Form
@@ -30,17 +31,13 @@ namespace Vokabel_Trainer
         private void btnCommit_Click(object sender, EventArgs e)
         {
             string[] lines = File.ReadAllLines(VocabFile.path);
-            StreamWriter sw  = new StreamWriter(VocabFile.path);
-
+            string usingData = lines[selectedLine].Substring(lines[selectedLine].Length - 4);
             string newGermanWord = tbGerman.Text.Trim().Replace(" ","");
             string newEnglishWord = tbEnglish.Text.Trim();
-            lines[selectedLine] = newEnglishWord + "=" + newGermanWord + ";0;0";
 
-            for (int i = 0; i < lines.Length; i++)
-            {
-                sw.WriteLine(lines[i]);
-            }
-            sw.Close();
+            lines[selectedLine] = newEnglishWord + "=" + newGermanWord + usingData;
+            File.WriteAllLines(VocabFile.path, lines);
+
             DialogResult result = MessageBox.Show("Änderungen erfolgreich übernommen.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (result == DialogResult.OK)
             {

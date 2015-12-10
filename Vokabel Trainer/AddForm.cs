@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 
-
 namespace Vokabel_Trainer
 {
     public partial class AddForm : Form 
@@ -19,7 +18,12 @@ namespace Vokabel_Trainer
 
             if (!addEnglish.Equals("") && !addGerman.Equals(""))
             {
-                appendToFile(addEnglish, addGerman);
+                string[] lines = File.ReadAllLines(VocabFile.path);
+                Array.Resize(ref lines, lines.Length + 1);
+                lines[lines.Length - 1] = String.Format("{0}={1};{2};{3}", addEnglish, addGerman, 0, 0);
+                Array.Sort<string>(lines);
+                File.WriteAllLines(VocabFile.path, lines);
+
                 tbAddEnglish.Clear();
                 tbAddGerman.Clear();
                 MessageBox.Show("Vokabel wurde hinzugefügt", "Erfolg!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -29,18 +33,11 @@ namespace Vokabel_Trainer
                 MessageBox.Show("Ungültige Eingabe", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void appendToFile(string newEnglish, string newGerman)
-        {
-            StreamWriter fileWriter = new StreamWriter(VocabFile.path, true);
-            fileWriter.WriteLine("{0}={1};{2};{3}", newEnglish, newGerman, 0, 0);
-            fileWriter.Close();
-        }
+
 
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
-            OverviewForm overview = new OverviewForm();
-            overview.Show();
         }
 
         private void btnInfo_Click(object sender, EventArgs e)

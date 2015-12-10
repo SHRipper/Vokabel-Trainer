@@ -40,14 +40,22 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speicherpfadÄndernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.schließenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.englischDeutschToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deutschEnglischToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statistikenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statistikAnzeigenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.statistikZurücksetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vokabelnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vokabelnBearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.grpCheck.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -152,7 +160,7 @@
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Location = new System.Drawing.Point(12, 40);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(120, 42);
+            this.btnStart.Size = new System.Drawing.Size(149, 42);
             this.btnStart.TabIndex = 7;
             this.btnStart.Text = "Übung starten";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -162,6 +170,7 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dateiToolStripMenuItem,
             this.toolStripMenuItem1,
             this.statistikenToolStripMenuItem,
             this.vokabelnToolStripMenuItem});
@@ -170,6 +179,35 @@
             this.menuStrip1.Size = new System.Drawing.Size(738, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // dateiToolStripMenuItem
+            // 
+            this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.speicherpfadÄndernToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.schließenToolStripMenuItem});
+            this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
+            this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.dateiToolStripMenuItem.Text = "Datei";
+            // 
+            // speicherpfadÄndernToolStripMenuItem
+            // 
+            this.speicherpfadÄndernToolStripMenuItem.Name = "speicherpfadÄndernToolStripMenuItem";
+            this.speicherpfadÄndernToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.speicherpfadÄndernToolStripMenuItem.Text = "Speicherpfad ändern";
+            this.speicherpfadÄndernToolStripMenuItem.Click += new System.EventHandler(this.speicherpfadÄndernToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 6);
+            // 
+            // schließenToolStripMenuItem
+            // 
+            this.schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
+            this.schließenToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.schließenToolStripMenuItem.Text = "Schließen";
+            this.schließenToolStripMenuItem.Click += new System.EventHandler(this.schließenToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -197,7 +235,9 @@
             // statistikenToolStripMenuItem
             // 
             this.statistikenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statistikAnzeigenToolStripMenuItem});
+            this.statistikAnzeigenToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.statistikZurücksetzenToolStripMenuItem});
             this.statistikenToolStripMenuItem.Name = "statistikenToolStripMenuItem";
             this.statistikenToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.statistikenToolStripMenuItem.Text = "Statistiken";
@@ -205,9 +245,21 @@
             // statistikAnzeigenToolStripMenuItem
             // 
             this.statistikAnzeigenToolStripMenuItem.Name = "statistikAnzeigenToolStripMenuItem";
-            this.statistikAnzeigenToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.statistikAnzeigenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.statistikAnzeigenToolStripMenuItem.Text = "Statistik anzeigen";
             this.statistikAnzeigenToolStripMenuItem.Click += new System.EventHandler(this.statistikAnzeigenToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(183, 6);
+            // 
+            // statistikZurücksetzenToolStripMenuItem
+            // 
+            this.statistikZurücksetzenToolStripMenuItem.Name = "statistikZurücksetzenToolStripMenuItem";
+            this.statistikZurücksetzenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.statistikZurücksetzenToolStripMenuItem.Text = "Statistik zurücksetzen";
+            this.statistikZurücksetzenToolStripMenuItem.Click += new System.EventHandler(this.statistikZurücksetzenToolStripMenuItem_Click);
             // 
             // vokabelnToolStripMenuItem
             // 
@@ -229,6 +281,15 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 500;
+            // 
+            // timer3
+            // 
+            this.timer3.Interval = 3000;
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -240,6 +301,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Vokabel Trainer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_closing);
             this.Load += new System.EventHandler(this.frmVocalCheck_Load);
             this.grpCheck.ResumeLayout(false);
             this.grpCheck.PerformLayout();
@@ -271,6 +333,14 @@
         private System.Windows.Forms.ToolStripMenuItem statistikAnzeigenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vokabelnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vokabelnBearbeitenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem statistikZurücksetzenToolStripMenuItem;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem speicherpfadÄndernToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem schließenToolStripMenuItem;
     }
 }
 

@@ -102,6 +102,16 @@ namespace Vokabel_Trainer
                 // update the list
                 fillList();
 
+                if (selectedIndex != 0)
+                {
+                    vocabList.SetSelected(selectedIndex - 1, true);
+                }
+                else
+                {
+                    vocabList.SetSelected(selectedIndex, true);
+                }
+                
+
                 // format the string and show textbox of confirmation
                 MessageBox.Show("\"" + deletedItem + "\" wurde gelöscht.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

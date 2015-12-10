@@ -7,7 +7,8 @@ namespace Vokabel_Trainer
 {
     public partial class MainForm : Form
     {
-        string mode;      
+        string mode;
+        bool resultWasShown;
         Words Words;
 
         public MainForm()
@@ -19,40 +20,68 @@ namespace Vokabel_Trainer
         {
             Words = new Words();
 
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Vokabeldatenbank.txt";
-            VocabFile.path = path;
+            DefaultSettingsOnStartup();
 
-            if (!File.Exists(path))
+            Vokabel_Trainer.Properties.Settings.Default.timesStarted = 1;
+            int programStarted = Vokabel_Trainer.Properties.Settings.Default.timesStarted;
+            if (programStarted == 1)
             {
-                File.Create(path);
+                ShowIntroDialog();
             }
+        }
 
-            VocabFile.getTotalLines();
-
-            setMode("english");
+        private void DefaultSettingsOnStartup()
+        {
+            mode = "english";
             englischDeutschToolStripMenuItem.Checked = true;
             timer1.Interval = 1500;
             btnShowVocab.Enabled = false;
             btnCheckVocab.Enabled = false;
         }
 
-        private void setMode(string mode)
+        private void ShowIntroDialog()
         {
-            this.mode = mode;
+            IntroDialog intro = new IntroDialog();
+            intro.ShowDialog();
         }
-        private string getMode()
-        {
-            return this.mode;
-        }
-
+      
         private void btnStart_Click(object sender, EventArgs e)
         {
-            tbCheckEnglish.Enabled = false;
-            tbCheckGerman.Enabled = true;
-            btnCheckVocab.Enabled = true;
+            if (VocabFile.linesInFile != 0)
+            {
+                if (btnStart.Text == "Übung starten")
+                {
+                    tbCheckEnglish.Enabled = false;
+                    btnCheckVocab.Enabled = true;
+                    ChangeToBtnStop();
+                    newRndWordFromFile();
+                    fillTextboxes();
+                }
+                else // btn-text == "übung stoppen"
+                {
+                    tbCheckEnglish.Enabled = true;
+                    tbCheckEnglish.Clear();
+                    tbCheckGerman.Clear();
+                    btnCheckVocab.Enabled = false;
+                    btnShowVocab.Enabled = false;
+                    ChangeToBtnStart();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Die ausgewählte Datei enthält keine Vokabeln.\nBitte fügen sie Vokabeln hinzu, oder wählen sie einen anderen Datei aus.",
+                    "Keine Vokabeln gefunden!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+        }
 
-            newRndWordFromFile();
-            fillTextboxes();
+        private void ChangeToBtnStop()
+        {
+            btnStart.Text = "Übung stoppen";
+
+        }
+        private void ChangeToBtnStart()
+        {
+            btnStart.Text = "Übung starten";
         }
 
         private void btnCheckVocab_Click(object sender, EventArgs e)
@@ -64,35 +93,54 @@ namespace Vokabel_Trainer
                 lblResult.ForeColor = Color.Green;
                 lblResult.Text = userword + " ist korrekt.";
                 btnShowVocab.Enabled = false;
-                incrementUsedCorrect();
+                if (!resultWasShown)
+                {
+                    // update the used correct number in the file and in the settings
+                    Words.usedCorrect++;
+                    Vokabel_Trainer.Properties.Settings.Default.usedCorrect_total++;
+                    updateLineInFile();
+                }
                 // wait until label is cleared again and new word is generated
-                timer1_start();
+                timer1.Start();
             }
             else
             {
                 lblResult.ForeColor = Color.Red;
                 lblResult.Text = userword + " ist leider falsch.";
-                incrementUsedIncorrect();
                 btnShowVocab.Enabled = true;
+
+                //update the used incorrect numer in the file and in the settings
+                Words.usedIncorrect++;
+                Vokabel_Trainer.Properties.Settings.Default.usedIncorrect_total++;
+                updateLineInFile();
+
+                // label is cleared after 3 seconds
+                timer3.Start();
             }
         }
 
-        private void incrementUsedIncorrect()
+        private void updateLineInFile()
         {
-           
-            
+            // update one line in the file
+            string[] lines = File.ReadAllLines(VocabFile.path);
+            string germanWords = "";
+            foreach (string s in Words.germanWords)
+            {
+                germanWords += s + ",";
+            }
+            germanWords = germanWords.Substring(0, germanWords.Length - 1);
+
+            lines[Words.line -1] = String.Format("{0}={1};{2};{3}", Words.englishWord, germanWords, Words.usedCorrect, Words.usedIncorrect);
+            File.WriteAllLines(VocabFile.path, lines);
         }
 
-        private void incrementUsedCorrect()
-        {
-
-
-        }
         private void btnShowVocab_Click(object sender, EventArgs e)
         {
             lblResult.ForeColor = Color.Black;
+            resultWasShown = true;
+            timer3.Start();
 
-            switch (getMode())
+            switch (mode)
             {
                 case "english":
                     // print solution 
@@ -107,24 +155,26 @@ namespace Vokabel_Trainer
         }
 
         private void newRndWordFromFile()
-        { 
+        {
+            resultWasShown = false;
 
             // generate random number and read a random line
             Random rnd = new Random();
-            int rndWordLine = rnd.Next(0, VocabFile.linesInFile +1);
+            int rndWordLine = rnd.Next(1, VocabFile.linesInFile +1);
             string rndLine = "";
 
             StreamReader sr = new StreamReader(VocabFile.path);
-            for (int i = 0; i <= rndWordLine; i++)
+            for (int i = 0; i < rndWordLine; i++)
             {
                 rndLine = sr.ReadLine();
             }
             sr.Close();
+
             Words.englishWord = rndLine.Split('=')[0];
-            string germanWords = rndLine.Split('=')[0].Split(';')[0];
+            string germanWords = rndLine.Split('=')[1].Split(';')[0];
             Words.germanWords = germanWords.Split(',');
-            Words.usedCorrect = Convert.ToInt32(rndLine.Split('=')[0].Split(';')[1]);
-            Words.usedIncorrect = Convert.ToInt32(rndLine.Split('=')[0].Split(';')[2]);
+            Words.usedCorrect = Convert.ToInt32(rndLine.Split('=')[1].Split(';')[1]);
+            Words.usedIncorrect = Convert.ToInt32(rndLine.Split('=')[1].Split(';')[2]);
             Words.line = rndWordLine;
 
             // clear the textboxes
@@ -134,7 +184,7 @@ namespace Vokabel_Trainer
 
         private bool isCorrect(string userword)
         {
-            switch (getMode())
+            switch (mode)
             {
                 case "german":
                     if (userword.ToLower().Equals(Words.englishWord.ToLower()))
@@ -162,7 +212,7 @@ namespace Vokabel_Trainer
             tbCheckEnglish.Clear();
             tbCheckGerman.Clear();
 
-            switch (getMode())
+            switch (mode)
             {
                 case "german":
                     tbCheckEnglish.Text = Words.germanWords[(new Random()).Next(0,Words.germanWords.Length)];
@@ -182,17 +232,12 @@ namespace Vokabel_Trainer
             timer1.Stop();
         }
 
-        private void timer1_start()
-        {
-            timer1.Stop();
-            timer1.Start();
-        }
-
         private void englischDeutschToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setMode("english");
+            mode = "english";
             deutschEnglischToolStripMenuItem.Checked = false;
             englischDeutschToolStripMenuItem.Checked = true;
+            ChangeToBtnStart();
             lblWordEnglish.Text = "Englisch";
             lblWordGerman.Text = "Deutsch";
 
@@ -201,9 +246,10 @@ namespace Vokabel_Trainer
 
         private void deutschEnglischToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setMode("german");
+            mode = "german";
             englischDeutschToolStripMenuItem.Checked = false;
             deutschEnglischToolStripMenuItem.Checked = true;
+            ChangeToBtnStart();
             lblWordEnglish.Text = "Deutsch";
             lblWordGerman.Text = "Englisch";
 
@@ -224,9 +270,11 @@ namespace Vokabel_Trainer
 
         private void vokabelnBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ChangeToBtnStart();
+            resetTextboxes();
+
             OverviewForm edit = new OverviewForm();
             edit.Show();
-            
         }
         private void tbCheckGerman_KeyDown(object sender, KeyPressEventArgs e)
         {
@@ -234,6 +282,43 @@ namespace Vokabel_Trainer
             {
                 btnCheckVocab.PerformClick();
             }
+        }
+        private void MainForm_closing(object sender, FormClosingEventArgs e)
+        {
+            Vokabel_Trainer.Properties.Settings.Default.Save();
+        }
+
+        private void statistikZurücksetzenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Wollen sie wirklich ihre Statistiken zurücksetzen?",
+                "Achtung!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes) 
+            {
+                Vokabel_Trainer.Properties.Settings.Default.usedCorrect_total = 0;
+                Vokabel_Trainer.Properties.Settings.Default.usedIncorrect_total = 0;
+                Vokabel_Trainer.Properties.Settings.Default.Save();
+            }
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            lblResult.Text = "";
+            timer3.Stop();
+        }
+
+        private void schließenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void speicherpfadÄndernToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeToBtnStart();
+            resetTextboxes();
+
+            IntroDialog pathDialog = new IntroDialog();
+            pathDialog.ShowDialog();
         }
     }
 }

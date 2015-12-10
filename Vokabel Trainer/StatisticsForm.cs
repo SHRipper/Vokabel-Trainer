@@ -12,33 +12,20 @@ namespace Vokabel_Trainer
 {
     public partial class StatisticsForm : Form
     {
-        int correctWordsCounter;
-        int falseWordsCounter;
-
         public StatisticsForm()
         {
             InitializeComponent();
         }
 
-        private void setCorrectWordsCounter(int correctWords)
+        private void StatisticsForm_Load(object sender, EventArgs e)
         {
-            this.correctWordsCounter = correctWords;
+            lblUsedCorrect.Text += " " + Vokabel_Trainer.Properties.Settings.Default.usedCorrect_total;
+            lblUsedIncorrect.Text += " " + Vokabel_Trainer.Properties.Settings.Default.usedIncorrect_total;
         }
-        private int getCorrectWordsCounter()
+
+        private void btnBack_Click(object sender, EventArgs e)
         {
-            return this.correctWordsCounter;
-        }
-        private void setFalseWordCounter(int falseWords)
-        {
-            this.falseWordsCounter = falseWords;
-        }
-        private int getFalseWordsCounter()
-        {
-            return this.falseWordsCounter;
-        }
-        public string hi()
-        {
-            return "hallo";
+            this.Close();
         }
     }
 }

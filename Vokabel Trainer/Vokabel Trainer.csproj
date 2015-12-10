@@ -85,6 +85,12 @@
     <Compile Include="EditForm.Designer.cs">
       <DependentUpon>EditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IntroDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntroDialog.Designer.cs">
+      <DependentUpon>IntroDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="OverviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditForm.resx">
       <DependentUpon>EditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroDialog.resx">
+      <DependentUpon>IntroDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OverviewForm.resx">
       <DependentUpon>OverviewForm.cs</DependentUpon>
@@ -161,6 +170,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OrdnerImage.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\003262.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ordner.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

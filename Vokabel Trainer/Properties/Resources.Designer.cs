@@ -61,6 +61,26 @@ namespace Vokabel_Trainer.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+        /// </summary>
+        internal static System.Drawing.Icon _003262 {
+            get {
+                object obj = ResourceManager.GetObject("_003262", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ordner {
+            get {
+                object obj = ResourceManager.GetObject("Ordner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die 0 ähnelt.
         /// </summary>
         internal static string PROGRAMM_STARTED_COUNTER {
